@@ -1,0 +1,33 @@
+{
+  "scenario": "RDBMS Outage followed by MCP failure",
+  "steps": [
+    {
+      "description": "Step 1: Simulate RDBMS outage (send 100 signals to trigger debounce)",
+      "method": "POST",
+      "url": "http://localhost:3001/api/signals/batch",
+      "body_template": {
+        "componentId": "POSTGRES_PRIMARY_01",
+        "componentType": "RDBMS",
+        "errorType": "CONNECTION_REFUSED",
+        "severity": "P0",
+        "message": "Primary database node is unreachable",
+        "metadata": { "host": "db-primary-01", "port": 5432 }
+      },
+      "repeat": 100
+    },
+    {
+      "description": "Step 2: Simulate MCP Host failure",
+      "method": "POST",
+      "url": "http://localhost:3001/api/signals/batch",
+      "body_template": {
+        "componentId": "MCP_HOST_02",
+        "componentType": "MCP_HOST",
+        "errorType": "TIMEOUT",
+        "severity": "P1",
+        "message": "MCP host not responding to health checks",
+        "metadata": { "host": "mcp-host-02", "timeout_ms": 5000 }
+      },
+      "repeat": 50
+    }
+  ]
+}

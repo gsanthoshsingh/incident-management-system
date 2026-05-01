@@ -4,7 +4,7 @@ const { getSeverityForComponent, fireAlert } = require('./alertService');
 const { v4: uuidv4 } = require('uuid');
 
 const DEBOUNCE_WINDOW_MS = 10000; // 10 seconds
-const DEBOUNCE_THRESHOLD = 100;
+const DEBOUNCE_THRESHOLD = 10;
 
 const getDebounceKey = (componentId) => `debounce:${componentId}`;
 const getLockKey = (componentId) => `lock:${componentId}`;
